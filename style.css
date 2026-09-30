@@ -1,0 +1,656 @@
+:root {
+  --ink: #111111;
+  --paper: #ffffff;
+  --muted: #7a7a7a;
+  --line: #e4e2de;
+  --gutter: 22px;
+  --serif: "Cormorant Garamond", Garamond, "Times New Roman", serif;
+}
+
+@media (min-width: 800px) {
+  :root { --gutter: 40px; }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; width: 100%; height: auto; background: #f0efec; }
+
+a { color: inherit; text-decoration: none; }
+
+a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+
+/* ============ SPLASH ============ */
+
+.splash {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+.splash__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Optional legibility scrim. Add class="splash scrim" to <body> if your
+   photo is busy and the words are hard to read. Off by default. */
+.scrim .splash__bg + .splash__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.28));
+  z-index: 1;
+}
+
+.splash__veil { display: none; }
+.scrim .splash__veil { display: block; }
+
+.splash__inner {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  padding: 26px var(--gutter) 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.brand__name { font-size: 23px; letter-spacing: 0.01em; }
+
+/* wordmark + instagram, paired in the top-left corner on every page */
+
+.brand__left,
+.masthead__left {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.ig { display: inline-flex; opacity: 0.85; }
+.ig svg { width: 19px; height: 19px; display: block; }
+.ig:hover { opacity: 1; }
+
+/* hamburger */
+
+.burger {
+  border: 0;
+  background: none;
+  padding: 6px 0 6px 20px;
+  cursor: pointer;
+  display: block;
+}
+
+.burger span {
+  display: block;
+  width: 34px;
+  height: 3px;
+  background: currentColor;
+  margin-bottom: 7px;
+}
+
+.burger span:last-child { margin-bottom: 0; }
+
+/* staggered links */
+
+.entries {
+  margin-top: auto;
+  padding-bottom: 4vh;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 3.5vh, 34px);
+}
+
+.entries a {
+  font-size: clamp(2.1rem, 9.5vw, 4.6rem);
+  line-height: 1;
+  display: inline-block;
+  align-self: flex-start;
+  font-weight: 300;
+  border-bottom: 1.5px solid currentColor;
+  padding-bottom: 9px;
+}
+
+/* Stagger composed against cover.jpg. Her body occupies the right ~55%
+   of the visible phone crop, so every word stays inside the left 40%. */
+.entries a:nth-child(1) { margin-left: 4%; }
+.entries a:nth-child(2) { margin-left: 14%; }
+.entries a:nth-child(3) { margin-left: 8%; }
+.entries a:nth-child(4) { margin-left: 2%; }
+
+/* set per-word colour to suit what's behind it */
+.on-light { color: #111111; }
+.on-dark  { color: #ffffff; }
+
+/* nav lives in the burger menu at every width; these two only ever
+   render inside <noscript>, as a fallback if the script fails */
+.splash__nav { display: flex; gap: 26px; font-size: 20px; padding-top: 4px; }
+
+@media (min-width: 900px) {
+  .entries { padding-bottom: 6vh; gap: clamp(10px, 2vh, 26px); }
+  .entries a { font-size: clamp(3.4rem, 6vw, 5.6rem); }
+
+  /* Wide crop gives more clear roof to her left, so the stagger opens up */
+  .entries a:nth-child(1) { margin-left: 3%; }
+  .entries a:nth-child(2) { margin-left: 16%; }
+  .entries a:nth-child(3) { margin-left: 8%; }
+  .entries a:nth-child(4) { margin-left: 20%; }
+}
+
+/* ============ MENU OVERLAY ============ */
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: var(--paper);
+  padding: 26px var(--gutter);
+  display: none;
+  flex-direction: column;
+}
+
+.menu[data-open="true"] { display: flex; }
+
+.menu__close {
+  align-self: flex-end;
+  border: 0;
+  background: none;
+  font-family: var(--serif);
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ink);
+  padding: 0;
+}
+
+.menu__links {
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.menu__links a { font-size: clamp(2.1rem, 9.5vw, 3.2rem); line-height: 1.1; font-weight: 300; }
+
+.menu__foot { color: var(--muted); font-size: 16px; }
+
+/* ============ INTERIOR PAGES ============ */
+
+.wrap { max-width: 1500px; margin: 0 auto; padding: 0 var(--gutter); }
+
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 26px 0 42px;
+}
+
+.masthead__name { font-size: 23px; }
+
+.masthead__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  justify-content: flex-end;
+  color: var(--muted);
+  font-size: 17px;
+}
+
+.masthead .burger { color: var(--ink); }
+
+.masthead__nav a:hover,
+.masthead__nav a[aria-current="page"] { color: var(--ink); }
+
+.index {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 36px var(--gutter);
+  padding-bottom: 64px;
+}
+
+@media (min-width: 620px) { .index { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1040px) { .index { grid-template-columns: repeat(3, 1fr); } }
+
+.index figure { margin: 0; }
+.index img { aspect-ratio: 4 / 5; object-fit: cover; }
+.index a:hover img { opacity: 0.74; }
+.index figcaption { padding-top: 9px; color: var(--muted); font-size: 16px; }
+
+.page__title {
+  font-size: clamp(1.9rem, 6vw, 3rem);
+  font-weight: 400;
+  margin: 0 0 6px;
+}
+
+.page__meta { color: var(--muted); margin: 0 0 52px; }
+
+.prose { max-width: 60ch; }
+.prose p { margin: 0 0 1.2em; }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- series on the photo page ---- */
+
+.series { padding-bottom: clamp(34px, 6vh, 72px); }
+.series + .series { border-top: 1px solid var(--line); padding-top: clamp(44px, 7vh, 86px); }
+
+.series__title {
+  font-size: clamp(1.5rem, 4.2vw, 2.2rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin: 0 0 40px;
+}
+
+/* ---- video ---- */
+
+.reels {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px var(--gutter);
+  padding-bottom: 60px;
+  align-items: start;
+}
+
+/* one wide film across the top, the two vertical ones paired beneath */
+@media (min-width: 700px) {
+  .reels { grid-template-columns: repeat(2, 1fr); }
+  .reel--wide { grid-column: 1 / -1; max-width: 900px; margin: 0 auto; width: 100%; }
+}
+
+.reel { display: block; }
+
+.reel__media {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+}
+
+button.reel__media { cursor: pointer; }
+
+.reel__frame {
+  width: 100%;
+  border: 0;
+  border-radius: 2px;
+  display: block;
+  background: #000;
+}
+
+.reel__media img,
+.reel__media video {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 2px;
+  background: #ececec;
+}
+
+.reel--wide .reel__media img,
+.reel--wide .reel__frame { aspect-ratio: 16 / 9; }
+
+.reel--tall .reel__media img,
+.reel--tall .reel__media video { aspect-ratio: 9 / 16; }
+
+.reel__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
+  color: rgba(255, 255, 255, 0.92);
+  pointer-events: none;
+}
+
+.reel__play svg { width: 100%; height: 100%; display: block; }
+
+a.reel:hover .reel__media img,
+button.reel__media:hover img { opacity: 0.78; }
+
+.reel__caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 9px;
+}
+
+.reel__title { font-size: 18px; color: var(--ink); }
+.reel__where { font-size: 15px; color: var(--muted); }
+
+.reel--soon .reel__media img { opacity: 0.4; }
+.reel--soon .reel__title { color: var(--muted); }
+
+/* ---- about ---- */
+
+.about {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  padding-bottom: 40px;
+}
+
+.about__portrait { margin: 0; }
+.about__portrait img { border-radius: 2px; }
+
+.about__text p {
+  margin: 0 0 1.15em;
+  max-width: 54ch;
+  font-size: 21px;
+  line-height: 1.58;
+}
+
+.about__text a { border-bottom: 1px solid currentColor; }
+.about__text a:hover { color: var(--muted); }
+
+.about__cta { padding-top: 10px; }
+
+.about .page__title { margin-bottom: 22px; }
+
+@media (min-width: 860px) {
+  .about {
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    gap: 54px;
+    align-items: start;
+  }
+  .about__portrait { position: sticky; top: 34px; }
+  .about .page__title { margin-top: -6px; }
+}
+
+.frames figure { margin: 0 auto clamp(50px, 9vh, 104px); max-width: 1050px; }
+.frames figure.portrait { max-width: 700px; }
+
+/* ---- grouped rows ----
+   Tight gaps inside a group, large gaps between groups. That contrast
+   is what makes a viewer read them as sets rather than a stream. */
+
+.group {
+  display: grid;
+  gap: 10px;
+  /* clamped in px so the gap tracks the images, not the screen height */
+  margin: 0 auto clamp(46px, 8vh, 96px);
+}
+
+.group img { aspect-ratio: 4 / 5; object-fit: cover; }
+
+/* MOKSHA is a print series shot 2:3 — show the whole frame, never crop it */
+.frames--23 .group img { aspect-ratio: 2 / 3; }
+.frames--23 .group-1 img { aspect-ratio: auto; }
+
+.group-1 { grid-template-columns: 1fr; max-width: 820px; margin-bottom: clamp(62px, 11vh, 130px); }
+.group-1 img { aspect-ratio: auto; }
+.group-2 { grid-template-columns: repeat(2, 1fr); }
+.group-3 { grid-template-columns: 1fr; gap: 10px; }
+.group-4 { grid-template-columns: repeat(2, 1fr); }
+
+/* On a phone a solo frame looks the same as any stacked one, so the extra
+   breathing room it gets on desktop just reads as a random larger gap.
+   Below 760px every group is spaced identically. */
+@media (max-width: 759px) {
+  .group,
+  .group-1 { margin-bottom: clamp(40px, 6vh, 66px); }
+  .series { padding-bottom: clamp(30px, 5vh, 52px); }
+  .series + .series { padding-top: clamp(38px, 6vh, 62px); }
+}
+
+@media (min-width: 760px) {
+  .group { gap: 14px; }
+  .group-3 { grid-template-columns: repeat(3, 1fr); }
+  .group-4 { grid-template-columns: repeat(4, 1fr); }
+
+  /* A solo frame gets more room than a row does — but it has to be the same
+     above and below, or it reads as shunted toward the group before it.
+     Adjacent margins collapse, so this matches the gap on both sides. */
+  .group-1 { margin-top: clamp(62px, 11vh, 130px); }
+  .frames .group-1:first-child { margin-top: 0; }
+}
+
+/* ---- contact ---- */
+
+.contact { max-width: 560px; padding-bottom: 50px; }
+.contact .page__title { margin-bottom: 36px; }
+
+.field { margin-bottom: 22px; }
+
+.field label {
+  display: block;
+  font-size: 16px;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+
+.field .opt { font-size: 14px; color: #a6a6a6; }
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  font-family: var(--serif);
+  font-size: 19px;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  padding: 11px 12px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 19px) calc(50% + 2px), calc(100% - 14px) calc(50% + 2px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+}
+
+.field textarea { resize: vertical; line-height: 1.5; }
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+
+.field .invalid { border-color: #a12f2f; }
+
+.err {
+  font-size: 15px;
+  color: #a12f2f;
+  margin: 6px 0 0;
+  min-height: 0;
+}
+
+.err:empty { display: none; }
+
+.hint { font-size: 15px; color: var(--muted); margin: 6px 0 0; }
+.hint:empty { display: none; }
+
+.hint-fix {
+  font-family: var(--serif);
+  font-size: 15px;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.field-row { display: grid; grid-template-columns: 1fr; gap: 0; }
+
+@media (min-width: 620px) {
+  .field-row { grid-template-columns: 1fr 1fr; gap: 0 18px; }
+}
+
+.hp { position: absolute; left: -9999px; opacity: 0; }
+
+#contact-form button {
+  font-family: var(--serif);
+  font-size: 19px;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  padding: 12px 30px;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+#contact-form button:hover { background: var(--ink); color: var(--paper); }
+#contact-form button:disabled { opacity: 0.5; cursor: default; }
+
+.form-status { font-size: 18px; line-height: 1.55; margin: 20px 0 0; }
+.form-status.ok { color: var(--ink); }
+.form-status.bad { color: #a12f2f; }
+
+.colophon {
+  border-top: 1px solid var(--line);
+  margin-top: 48px;
+  padding: 26px 0 60px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.colophon a:hover { color: var(--ink); }
+.colophon ul { display: flex; align-items: center; gap: 18px; list-style: none; margin: 0; padding: 0; }
+.colophon .ig svg { width: 20px; height: 20px; }
+
+.menu__social { display: inline-flex; align-items: center; gap: 16px; margin-left: 18px; vertical-align: -4px; }
+.menu__social .ig svg { width: 21px; height: 21px; }
+
+img, a { transition: opacity 0.25s ease, color 0.25s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+
+/* ============ LIGHTBOX ============ */
+
+/* iOS only dispatches click on a non-interactive element when it looks
+   clickable, so cursor:pointer here is load-bearing, not decoration. */
+.frames .zoomable {
+  cursor: pointer;
+  cursor: zoom-in;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.frames .zoomable:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+
+.lightbox {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 60;
+  background: rgba(12, 12, 12, 0.94);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 52px 10px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.lightbox[data-open="true"] { display: flex; }
+
+.lightbox__stage {
+  margin: 0;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.lightbox__stage img {
+  max-width: 100%;
+  /* vh first as the fallback — older mobile Safari drops the whole
+     declaration if it cannot parse dvh, leaving the image unbounded */
+  max-height: calc(100vh - 116px);
+  max-height: calc(100dvh - 116px);
+  width: auto;
+  height: auto;
+  background: none;
+  object-fit: contain;
+  cursor: pointer;
+  cursor: zoom-out;
+}
+
+.lightbox[data-loading="true"] .lightbox__stage img { opacity: 0.25; }
+
+.lightbox__count {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.62);
+  letter-spacing: 0.06em;
+}
+
+.lightbox__close,
+.lightbox__nav {
+  position: absolute;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  color: #fff;
+  font-family: var(--serif);
+  cursor: pointer;
+  line-height: 1;
+  padding: 10px 16px;
+  opacity: 0.72;
+}
+
+.lightbox__close:hover,
+.lightbox__nav:hover { opacity: 1; }
+
+.lightbox__close { top: 6px; right: 6px; font-size: 36px; padding: 10px 18px; }
+.lightbox__nav { top: 50%; transform: translateY(-50%); font-size: 46px; padding: 18px 14px; }
+.lightbox__prev { left: 2px; }
+.lightbox__next { right: 2px; }
+
+@media (min-width: 760px) {
+  .lightbox { padding: 64px 74px; }
+  .lightbox__prev { left: 14px; }
+  .lightbox__next { right: 14px; }
+}
