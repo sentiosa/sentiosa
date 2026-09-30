@@ -98,9 +98,34 @@
       }
 
       img.addEventListener('click', launch);
-      // fallback for mobile browsers that do not dispatch click on an <img>
+
+      // Fallback for mobile browsers that do not dispatch click on an <img>.
+      // It must only fire on a real tap: a finger that barely moved and lifted
+      // quickly. Without these checks, letting go mid-scroll opens the image.
+      var tap = null;
+
+      img.addEventListener('touchstart', function (e) {
+        if (e.touches.length !== 1) { tap = null; return; }
+        tap = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() };
+      }, { passive: true });
+
+      img.addEventListener('touchmove', function (e) {
+        if (!tap || !e.touches.length) return;
+        if (Math.abs(e.touches[0].clientX - tap.x) > 10 ||
+            Math.abs(e.touches[0].clientY - tap.y) > 10) tap = null;
+      }, { passive: true });
+
+      img.addEventListener('touchcancel', function () { tap = null; }, { passive: true });
+
       img.addEventListener('touchend', function (e) {
-        if (e.changedTouches && e.changedTouches.length === 1) launch(e);
+        var t = tap;
+        tap = null;
+        if (!t || e.changedTouches.length !== 1) return;
+        var f = e.changedTouches[0];
+        var moved = Math.abs(f.clientX - t.x) > 10 || Math.abs(f.clientY - t.y) > 10;
+        var slow = Date.now() - t.t > 500;
+        if (moved || slow) return;
+        launch(e);
       });
       img.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); launch(); }
