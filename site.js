@@ -200,3 +200,19 @@
     });
   });
 })();
+
+/* mark the sticky header once the page has scrolled, so it can tighten up */
+(function () {
+  var head = document.querySelector('.masthead');
+  if (!head) return;
+  var stuck = false;
+  function check() {
+    var now = window.scrollY > 8;
+    if (now !== stuck) {
+      stuck = now;
+      head.setAttribute('data-stuck', stuck ? 'true' : 'false');
+    }
+  }
+  window.addEventListener('scroll', check, { passive: true });
+  check();
+})();

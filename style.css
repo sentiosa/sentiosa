@@ -202,6 +202,26 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
   justify-content: space-between;
   align-items: flex-start;
   padding: 26px 0 42px;
+
+  /* follows the page down; sits under the menu overlay (z-index 10)
+     and the lightbox (60) so neither gets covered */
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  background: var(--paper);
+  transition: padding 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* once the page has moved, tighten up and draw a hairline so images
+   scrolling underneath have a visible edge instead of just vanishing */
+.masthead[data-stuck="true"] {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  box-shadow: 0 1px 0 var(--line);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .masthead { transition: none; }
 }
 
 .masthead__name { font-size: 23px; }
@@ -259,6 +279,9 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 /* ---- series on the photo page ---- */
 
 .series { padding-bottom: clamp(34px, 6vh, 72px); }
+
+/* photo.html#moksha and #athar must not land under the sticky header */
+.series { scroll-margin-top: 90px; }
 .series + .series { border-top: 1px solid var(--line); padding-top: clamp(44px, 7vh, 86px); }
 
 .series__title {
