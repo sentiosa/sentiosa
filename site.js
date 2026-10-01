@@ -25,6 +25,12 @@
 })();
 
 (function () {
+  // A tap that lands while the page is still moving — or just after — is
+  // almost always someone stopping momentum scrolling, not asking to open
+  // an image. Track when the page last moved so taps can be ignored then.
+  var lastScroll = 0;
+  window.addEventListener('scroll', function () { lastScroll = Date.now(); }, { passive: true });
+
   var galleries = [].slice.call(document.querySelectorAll('.frames'))
     .map(function (f) { return [].slice.call(f.querySelectorAll('img')); })
     .filter(function (g) { return g.length; });
@@ -124,7 +130,9 @@
         var f = e.changedTouches[0];
         var moved = Math.abs(f.clientX - t.x) > 10 || Math.abs(f.clientY - t.y) > 10;
         var slow = Date.now() - t.t > 500;
-        if (moved || slow) return;
+        var scrolledDuring = lastScroll > t.t;              // page moved under the finger
+        var scrolledJustBefore = t.t - lastScroll < 450;    // still settling when touched
+        if (moved || slow || scrolledDuring || scrolledJustBefore) return;
         launch(e);
       });
       img.addEventListener('keydown', function (e) {
@@ -179,13 +187,6 @@
     var img = slot.querySelector('img');
     if (!btn || !id) return;
 
-    // maxresdefault does not exist for every upload
-    if (img) {
-      img.addEventListener('error', function () {
-        var alt = img.getAttribute('data-fallback');
-        if (alt && img.src !== alt) img.src = alt;
-      });
-    }
 
     btn.addEventListener('click', function () {
       var frame = document.createElement('iframe');
