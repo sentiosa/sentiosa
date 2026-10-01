@@ -35,7 +35,11 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 
 .splash {
   position: relative;
-  min-height: 100svh;
+  /* vh first as the fallback, then dvh which tracks the visible area as the
+     phone's toolbars show and hide — svh left a gap when they retracted and
+     let them cover the bottom of the photo when they appeared */
+  min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
 }
 
@@ -63,8 +67,12 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .splash__inner {
   position: relative;
   z-index: 2;
-  min-height: 100svh;
-  padding: 26px var(--gutter) 40px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  /* the photo now paints behind the status bar, so the wordmark and the
+     words are pushed clear of it rather than the whole page being inset */
+  padding: calc(26px + env(safe-area-inset-top, 0px)) var(--gutter)
+           calc(40px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
 }
@@ -205,6 +213,7 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 
   /* follows the page down; sits under the menu overlay (z-index 10)
      and the lightbox (60) so neither gets covered */
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 8;
