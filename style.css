@@ -118,7 +118,7 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 
 .entries {
   margin-top: auto;
-  padding-bottom: 13vh;
+  padding-bottom: 6vh;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -157,10 +157,12 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
   .entries { padding-bottom: 6vh; gap: 0; }
   .entries a { font-size: clamp(3.4rem, 6vw, 5.6rem); }
 
-  .entries a:nth-child(1) { margin-left: 13%; margin-top: 0; }
-  .entries a:nth-child(2) { margin-left: 64%; margin-top: 3vh; }
-  .entries a:nth-child(3) { margin-left: 11%; margin-top: 3.5vh; }
-  .entries a:nth-child(4) { margin-left: 57%; margin-top: 4.5vh; }
+  /* nudged 5.5% to the right of the phone values, so the block sits
+     centred in the wide frame instead of hugging the left edge */
+  .entries a:nth-child(1) { margin-left: 18.5%; margin-top: 0; }
+  .entries a:nth-child(2) { margin-left: 69.5%; margin-top: 3vh; }
+  .entries a:nth-child(3) { margin-left: 16.5%; margin-top: 3.5vh; }
+  .entries a:nth-child(4) { margin-left: 62.5%; margin-top: 4.5vh; }
 }
 
 /* ============ MENU OVERLAY ============ */
