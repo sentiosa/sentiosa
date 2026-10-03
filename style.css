@@ -60,6 +60,27 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .splash__veil { display: none; }
 .scrim .splash__veil { display: block; }
 
+/* The wordmark, instagram icon and burger are white on the cover, but the
+   top-left corner of the photo is bright sky — white on it measures 1.6:1,
+   which is unreadable. This gradient darkens only the top strip so the
+   white reads, and fades out before it touches the skyline.
+   Delete this one rule to go back to a completely untouched photo. */
+.splash::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 230px;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(0,0,0,0.50) 0,
+    rgba(0,0,0,0.44) 72px,
+    rgba(0,0,0,0.20) 140px,
+    rgba(0,0,0,0) 100%);
+}
+
 .splash__inner {
   position: relative;
   z-index: 2;
@@ -87,7 +108,7 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 }
 
 .ig { display: inline-flex; opacity: 0.85; }
-.ig svg { width: 19px; height: 19px; display: block; }
+.ig svg { width: 25px; height: 25px; display: block; }
 .ig:hover { opacity: 1; }
 
 /* hamburger */
@@ -114,10 +135,10 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 
 .entries {
   margin-top: auto;
-  padding-bottom: 4vh;
+  padding-bottom: 13vh;
   display: flex;
   flex-direction: column;
-  gap: clamp(14px, 3.5vh, 34px);
+  gap: 0;
 }
 
 .entries a {
@@ -130,12 +151,13 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
   padding-bottom: 9px;
 }
 
-/* Stagger composed against cover.jpg. Her body occupies the right ~55%
-   of the visible phone crop, so every word stays inside the left 40%. */
-.entries a:nth-child(1) { margin-left: 4%; }
-.entries a:nth-child(2) { margin-left: 14%; }
-.entries a:nth-child(3) { margin-left: 8%; }
-.entries a:nth-child(4) { margin-left: 2%; }
+/* Positions traced from the marked-up screenshot: alternating left and
+   right, with the gaps widening as the words descend. Each word's gap is
+   its own margin-top rather than one uniform flex gap. */
+.entries a:nth-child(1) { margin-left: 13%; }
+.entries a:nth-child(2) { margin-left: 64%; margin-top: 6vh; }
+.entries a:nth-child(3) { margin-left: 11%; margin-top: 7vh; }
+.entries a:nth-child(4) { margin-left: 57%; margin-top: 9.5vh; }
 
 /* set per-word colour to suit what's behind it */
 .on-light { color: #111111; }
@@ -146,14 +168,16 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .splash__nav { display: flex; gap: 26px; font-size: 20px; padding-top: 4px; }
 
 @media (min-width: 900px) {
-  .entries { padding-bottom: 6vh; gap: clamp(10px, 2vh, 26px); }
+  /* Same left-right-left-right composition as the phone. The words are
+     about twice as tall here, so the vertical gaps are scaled down to
+     keep the block sitting in the same part of the frame. */
+  .entries { padding-bottom: 6vh; gap: 0; }
   .entries a { font-size: clamp(3.4rem, 6vw, 5.6rem); }
 
-  /* Wide crop gives more clear roof to her left, so the stagger opens up */
-  .entries a:nth-child(1) { margin-left: 3%; }
-  .entries a:nth-child(2) { margin-left: 16%; }
-  .entries a:nth-child(3) { margin-left: 8%; }
-  .entries a:nth-child(4) { margin-left: 20%; }
+  .entries a:nth-child(1) { margin-left: 13%; margin-top: 0; }
+  .entries a:nth-child(2) { margin-left: 64%; margin-top: 3vh; }
+  .entries a:nth-child(3) { margin-left: 11%; margin-top: 3.5vh; }
+  .entries a:nth-child(4) { margin-left: 57%; margin-top: 4.5vh; }
 }
 
 /* ============ MENU OVERLAY ============ */
@@ -372,7 +396,8 @@ button.reel__media:hover img { opacity: 0.78; }
   padding-top: 9px;
 }
 
-.reel__title { font-size: 18px; color: var(--ink); }
+/* set in capitals, so it needs tracking to stop the letters crowding */
+.reel__title { font-size: 18px; color: var(--ink); letter-spacing: 0.07em; }
 .reel__where { font-size: 15px; color: var(--muted); }
 
 .reel--soon .reel__media img { opacity: 0.4; }
@@ -578,10 +603,10 @@ button.reel__media:hover img { opacity: 0.78; }
 
 .colophon a:hover { color: var(--ink); }
 .colophon ul { display: flex; align-items: center; gap: 18px; list-style: none; margin: 0; padding: 0; }
-.colophon .ig svg { width: 20px; height: 20px; }
+.colophon .ig svg { width: 27px; height: 27px; }
 
 .menu__social { display: inline-flex; align-items: center; gap: 16px; margin-left: 18px; vertical-align: -4px; }
-.menu__social .ig svg { width: 21px; height: 21px; }
+.menu__social .ig svg { width: 27px; height: 27px; }
 
 img, a { transition: opacity 0.25s ease, color 0.25s ease; }
 

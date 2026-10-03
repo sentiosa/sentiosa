@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261001f">
+<link rel="stylesheet" href="style.css?v=20261003d">
 </head>
 <body>
 
@@ -32,14 +32,14 @@
 
     <div class="brand">
       <div class="brand__left">
-        <a class="brand__name on-light" href="index.html">sentiosa</a>
-        <a class="ig on-light" href="https://www.instagram.com/bysentiosa/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.2" cy="6.8" r="1.15" fill="currentColor" stroke="none"></circle></svg></a>
+        <a class="brand__name on-dark" href="index.html">sentiosa</a>
+        <a class="ig on-dark" href="https://www.instagram.com/bysentiosa/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.2" cy="6.8" r="1.15" fill="currentColor" stroke="none"></circle></svg></a>
       </div>
-      <button class="burger on-light" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+      <button class="burger on-dark" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
         <span></span><span></span><span></span>
       </button>
       <noscript>
-        <nav class="splash__nav on-light">
+        <nav class="splash__nav on-dark">
           <a href="photo.html">photo</a>
           <a href="video.html">video</a>
           <a href="about.html">about</a>
@@ -48,9 +48,8 @@
       </noscript>
     </div>
 
-    <!-- Measured against cover.jpg: everything below the top third of this
-         frame reads 15-104 in luminance, so all four words are white.
-         The wordmark and burger sit on bright sky, so they stay black. -->
+    <!-- Everything on the cover is white. The top bar needs the gradient
+         in style.css (.splash::before) to stay readable over the sky. -->
     <nav class="entries">
       <a class="on-dark" href="photo.html">photo</a>
       <a class="on-dark" href="video.html">video</a>
@@ -73,12 +72,11 @@
     <a href="mailto:bysentiosa@gmail.com">bysentiosa@gmail.com</a>
     <span class="menu__social">
       <a class="ig" href="https://www.instagram.com/bysentiosa/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.2" cy="6.8" r="1.15" fill="currentColor" stroke="none"></circle></svg></a>
-      <a class="ig" href="https://www.youtube.com/@sentiosa" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="5" width="20" height="14" rx="4.5"></rect><path d="M10.2 9.3 L15 12 L10.2 14.7 Z" fill="currentColor" stroke="none"></path></svg></a>
     </span>
   </p>
 </div>
 
-<script src="site.js?v=20261001f" defer></script>
+<script src="site.js?v=20261003d" defer></script>
 
 </body>
 </html>
