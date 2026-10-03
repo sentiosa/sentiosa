@@ -60,26 +60,9 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .splash__veil { display: none; }
 .scrim .splash__veil { display: block; }
 
-/* The wordmark, instagram icon and burger are white on the cover, but the
-   top-left corner of the photo is bright sky — white on it measures 1.6:1,
-   which is unreadable. This gradient darkens only the top strip so the
-   white reads, and fades out before it touches the skyline.
-   Delete this one rule to go back to a completely untouched photo. */
-.splash::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 230px;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(180deg,
-    rgba(0,0,0,0.50) 0,
-    rgba(0,0,0,0.44) 72px,
-    rgba(0,0,0,0.20) 140px,
-    rgba(0,0,0,0) 100%);
-}
+/* The cover photo is left completely untouched: no gradient, no overlay.
+   Everything on it is white, including the wordmark and instagram icon in
+   the top-left, which sit on bright sky and read faintly by design. */
 
 .splash__inner {
   position: relative;
