@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261003g">
+<link rel="stylesheet" href="style.css?v=20261003h">
 </head>
 <body>
 <div class="wrap">
@@ -40,7 +40,7 @@
            Get one free at https://web3forms.com — enter your email, no account needed.
            The key is not a secret; it only routes messages to your inbox. -->
       <form id="contact-form" novalidate>
-        <input type="hidden" name="access_key" value="ffd9eec7-5c87-40d9-aa4f-a17510969a2d">
+        <input type="hidden" name="access_key" value="YOUR-ACCESS-KEY-HERE">
         <input type="hidden" name="subject" value="New enquiry from sentiosa">
         <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
 
@@ -69,8 +69,11 @@
         </div>
 
         <button type="submit" id="submit-btn">Send message</button>
-        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
       </form>
+
+      <!-- Deliberately OUTSIDE the form. On success the script hides the
+           form, and anything inside it would be hidden along with it. -->
+      <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
     </div>
   </main>
 
@@ -99,11 +102,14 @@
   </p>
 </div>
 
-<script src="site.js?v=20261003g" defer></script>
+<script src="site.js?v=20261003h" defer></script>
 
 <script>
   var form = document.getElementById('contact-form');
-  var status = document.getElementById('form-status');
+  // NOTE: this must NOT be called `status`. At global scope `var status`
+  // writes to window.status, a legacy string property, so the element is
+  // silently coerced to a string and every assignment to it is lost.
+  var formStatus = document.getElementById('form-status');
   var btn = document.getElementById('submit-btn');
 
   function setErr(id, msg) {
@@ -165,8 +171,8 @@
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    status.textContent = '';
-    status.className = 'form-status';
+    formStatus.textContent = '';
+    formStatus.className = 'form-status';
 
     var name = document.getElementById('name').value.trim();
     var email = document.getElementById('email').value.trim();
@@ -191,16 +197,16 @@
       .then(function (data) {
         if (data.success) {
           form.style.display = 'none';
-          status.textContent = 'Thank you — your message is on its way. I will get back to you soon.';
-          status.className = 'form-status ok';
-          status.style.display = 'block';
+          formStatus.textContent = 'Thank you for reaching out! I’ve got your message and will get back to you soon! :)';
+          formStatus.className = 'form-status ok';
+          formStatus.style.display = 'block';
         } else {
           throw new Error('rejected');
         }
       })
       .catch(function () {
-        status.textContent = 'That did not send. Please email bysentiosa@gmail.com instead.';
-        status.className = 'form-status bad';
+        formStatus.textContent = 'That did not send. Please email bysentiosa@gmail.com instead.';
+        formStatus.className = 'form-status bad';
         btn.disabled = false;
         btn.textContent = 'Send message';
       });
